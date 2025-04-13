@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>报表详情 - 外部司机配送管理系统</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f5f5f5;
+            width: 375px;
+            height: 3000px;
+            overflow: hidden;
+        }
+        .status-bar {
+            height: 44px;
+            background-color: #000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            color: white;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .nav-bar {
+            height: 44px;
+            background-color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 15px;
+            border-bottom: 1px solid #eee;
+        }
+        .report-area {
+            margin: 20px;
+            background: white;
+            border-radius: 8px;
+        }
+        .chart-container {
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        .data-card {
+            background: white;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        .data-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+        .stat-item {
+            padding: 10px;
+            text-align: center;
+            background: #f8f9fa;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="status-bar">
+        <span class="status-bar-time">9:41</span>
+        <div class="status-bar-icons">
+            <i class="fas fa-signal"></i>
+            <i class="fas fa-wifi"></i>
+            <i class="fas fa-battery-full"></i>
+        </div>
+    </div>
+
+    <div class="nav-bar">
+        <a href="javascript:history.back()" class="text-gray-600">
+            <i class="fas fa-chevron-left"></i>
+        </a>
+        <span class="font-semibold">配送统计报表</span>
+        <button class="text-blue-500 font-semibold" onclick="window.location.href='admin-export.html'">导出</button>
+    </div>
+
+    <div class="report-area">
+        <div class="p-4 border-b">
+            <div class="flex justify-between items-center mb-2">
+                <span class="text-sm text-gray-500">统计时间</span>
+                <span class="text-sm font-medium">2024-01-01 至 2024-01-31</span>
+            </div>
+            <div class="flex justify-between items-center">
+                <span class="text-sm text-gray-500">报表类型</span>
+                <span class="text-sm font-medium">配送统计报表</span>
+            </div>
+        </div>
+
+        <div class="data-card">
+            <h3 class="text-lg font-medium mb-4">关键指标</h3>
+            <div class="data-grid">
+                <div class="stat-item">
+                    <div class="text-2xl font-bold text-blue-600">2,456</div>
+                    <div class="text-sm text-gray-500">总订单数</div>
+                </div>
+                <div class="stat-item">
+                    <div class="text-2xl font-bold text-green-600">98.5%</div>
+                    <div class="text-sm text-gray-500">准时率</div>
+                </div>
+                <div class="stat-item">
+                    <div class="text-2xl font-bold text-purple-600">4.8</div>
+                    <div class="text-sm text-gray-500">平均评分</div>
+                </div>
+                <div class="stat-item">
+                    <div class="text-2xl font-bold text-orange-600">¥156K</div>
+                    <div class="text-sm text-gray-500">总收入</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="chart-container">
+            <h3 class="text-lg font-medium mb-4">订单趋势</h3>
+            <canvas id="orderTrendChart"></canvas>
+        </div>
+
+        <div class="chart-container">
+            <h3 class="text-lg font-medium mb-4">配送效率分析</h3>
+            <canvas id="deliveryEfficiencyChart"></canvas>
+        </div>
+
+        <div class="p-4">
+            <h3 class="text-lg font-medium mb-4">配送员排名</h3>
+            <div class="space-y-3">
+                <div class="flex items-center justify-between p-3 bg-gray-50 rounded">
+                    <div class="flex items-center">
+                        <span class="text-lg font-bold text-blue-600 mr-3">1</span>
+                        <div>
+                            <div class="font-medium">张三</div>
+                            <div class="text-sm text-gray-500">ID: 10086</div>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <div class="font-medium">486单</div>
+                        <div class="text-sm text-gray-500">评分 4.9</div>
+                    </div>
+                </div>
+                <div class="flex items-center justify-between p-3 bg-gray-50 rounded">
+                    <div class="flex items-center">
+                        <span class="text-lg font-bold text-blue-600 mr-3">2</span>
+                        <div>
+                            <div class="font-medium">李四</div>
+                            <div class="text-sm text-gray-500">ID: 10087</div>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <div class="font-medium">452单</div>
+                        <div class="text-sm text-gray-500">评分 4.8</div>
+                    </div>
+                </div>
+                <div class="flex items-center justify-between p-3 bg-gray-50 rounded">
+                    <div class="flex items-center">
+                        <span class="text-lg font-bold text-blue-600 mr-3">3</span>
+                        <div>
+                            <div class="font-medium">王五</div>
+                            <div class="text-sm text-gray-500">ID: 10088</div>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <div class="font-medium">445单</div>
+                        <div class="text-sm text-gray-500">评分 4.8</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 订单趋势图表
+        const orderTrendCtx = document.getElementById('orderTrendChart').getContext('2d');
+        new Chart(orderTrendCtx, {
+            type: 'line',
+            data: {
+                labels: ['1月1日', '1月8日', '1月15日', '1月22日', '1月29日'],
+                datasets: [{
+                    label: '订单数量',
+                    data: [65, 78, 90, 81, 95],
+                    borderColor: '#1976D2',
+                    tension: 0.1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // 配送效率分析图表
+        const deliveryEfficiencyCtx = document.getElementById('deliveryEfficiencyChart').getContext('2d');
+        new Chart(deliveryEfficiencyCtx, {
+            type: 'bar',
+            data: {
+                labels: ['准时', '轻微延迟', '严重延迟', '异常'],
+                datasets: [{
+                    label: '配送状态分布',
+                    data: [2150, 245, 45, 16],
+                    backgroundColor: [
+                        '#4CAF50',
+                        '#FFC107',
+                        '#FF9800',
+                        '#F44336'
+                    ]
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

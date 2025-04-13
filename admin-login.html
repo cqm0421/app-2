@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>管理员登录 - 外部司机配送管理系统</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f5f5f5;
+            width: 375px;
+            height: 3000px;
+            overflow: hidden;
+        }
+        .status-bar {
+            height: 44px;
+            background-color: #000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            color: white;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .status-bar-time {
+            font-weight: bold;
+        }
+        .status-bar-icons {
+            display: flex;
+            gap: 5px;
+        }
+        .login-container {
+            padding: 40px 20px;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        .login-title {
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: #1976D2;
+            margin-bottom: 40px;
+        }
+        .input-group {
+            margin-bottom: 20px;
+        }
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #666;
+            font-size: 14px;
+        }
+        .input-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        .input-group input:focus {
+            border-color: #1976D2;
+            outline: none;
+        }
+        .login-button {
+            width: 100%;
+            padding: 14px;
+            background-color: #1976D2;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .login-button:hover {
+            background-color: #1565C0;
+        }
+        .login-footer {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 14px;
+            color: #666;
+        }
+        .login-footer a {
+            color: #1976D2;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- iOS 状态栏 -->
+    <div class="status-bar">
+        <div class="status-bar-time" id="status-time">9:41</div>
+        <div class="status-bar-icons">
+            <i class="fas fa-signal"></i>
+            <i class="fas fa-wifi"></i>
+            <i class="fas fa-battery-full"></i>
+        </div>
+    </div>
+
+    <!-- 登录表单 -->
+    <div class="login-container">
+        <h1 class="login-title">管理员登录</h1>
+        <form>
+            <div class="input-group">
+                <label for="username">管理员账号</label>
+                <input type="text" id="username" placeholder="请输入管理员账号" required>
+            </div>
+            <div class="input-group">
+                <label for="password">密码</label>
+                <input type="password" id="password" placeholder="请输入密码" required>
+            </div>
+            <button type="submit" class="login-button">登录</button>
+        </form>
+        <div class="login-footer">
+            <a href="login.html">司机登录入口</a>
+        </div>
+    </div>
+
+    <script>
+        // 更新状态栏时间
+        function updateStatusBarTime() {
+            const now = new Date();
+            let hours = now.getHours();
+            let minutes = now.getMinutes();
+            minutes = minutes < 10 ? '0' + minutes : minutes;
+            document.getElementById('status-time').textContent = `${hours}:${minutes}`;
+        }
+        
+        updateStatusBarTime();
+        setInterval(updateStatusBarTime, 60000);
+
+        // 表单提交处理
+        document.querySelector('form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            // TODO: 实现管理员登录逻辑
+            console.log('管理员登录:', { username, password });
+            // 登录成功后跳转到管理员首页
+            window.location.href = 'admin-home.html';
+        });
+    </script>
+</body>
+</html>

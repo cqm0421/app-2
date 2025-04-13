@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>导出报表 - 外部司机配送管理系统</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f5f5f5;
+            width: 375px;
+            height: 3000px;
+            overflow: hidden;
+        }
+        .status-bar {
+            height: 44px;
+            background-color: #000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            color: white;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .nav-bar {
+            height: 44px;
+            background-color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 15px;
+            border-bottom: 1px solid #eee;
+        }
+        .export-area {
+            margin: 20px;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+        }
+        .radio-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 8px;
+        }
+        .radio-item {
+            flex: 1 1 calc(50% - 5px);
+            min-width: 140px;
+        }
+        .radio-item input[type="radio"] {
+            display: none;
+        }
+        .radio-item label {
+            display: block;
+            padding: 10px;
+            text-align: center;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .radio-item input[type="radio"]:checked + label {
+            background-color: #1976D2;
+            color: white;
+            border-color: #1976D2;
+        }
+    </style>
+</head>
+<body>
+    <div class="status-bar">
+        <span class="status-bar-time">9:41</span>
+        <div class="status-bar-icons">
+            <i class="fas fa-signal"></i>
+            <i class="fas fa-wifi"></i>
+            <i class="fas fa-battery-full"></i>
+        </div>
+    </div>
+
+    <div class="nav-bar">
+        <a href="javascript:history.back()" class="text-gray-600">
+            <i class="fas fa-chevron-left"></i>
+        </a>
+        <span class="font-semibold">导出报表</span>
+        <button class="text-blue-500 font-semibold" onclick="exportReport()">导出</button>
+    </div>
+
+    <div class="export-area">
+        <div class="mb-6">
+            <label class="block text-sm font-medium text-gray-700 mb-2">时间范围</label>
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-xs text-gray-500 mb-1">开始日期</label>
+                    <input type="date" id="startDate" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500">
+                </div>
+                <div>
+                    <label class="block text-xs text-gray-500 mb-1">结束日期</label>
+                    <input type="date" id="endDate" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500">
+                </div>
+            </div>
+        </div>
+
+        <div class="mb-6">
+            <label class="block text-sm font-medium text-gray-700 mb-2">报表类型</label>
+            <div class="radio-group">
+                <div class="radio-item">
+                    <input type="radio" id="type1" name="reportType" value="delivery" checked>
+                    <label for="type1">配送统计</label>
+                </div>
+                <div class="radio-item">
+                    <input type="radio" id="type2" name="reportType" value="driver">
+                    <label for="type2">司机统计</label>
+                </div>
+                <div class="radio-item">
+                    <input type="radio" id="type3" name="reportType" value="order">
+                    <label for="type3">订单统计</label>
+                </div>
+                <div class="radio-item">
+                    <input type="radio" id="type4" name="reportType" value="finance">
+                    <label for="type4">财务统计</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="mb-6">
+            <label class="block text-sm font-medium text-gray-700 mb-2">导出格式</label>
+            <div class="radio-group">
+                <div class="radio-item">
+                    <input type="radio" id="format1" name="exportFormat" value="excel" checked>
+                    <label for="format1">Excel</label>
+                </div>
+                <div class="radio-item">
+                    <input type="radio" id="format2" name="exportFormat" value="pdf">
+                    <label for="format2">PDF</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="mb-4">
+            <label class="block text-sm font-medium text-gray-700 mb-2">备注说明</label>
+            <textarea id="remarks" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500" rows="3" placeholder="请输入备注说明（选填）"></textarea>
+        </div>
+    </div>
+
+    <script>
+        function exportReport() {
+            const startDate = document.getElementById('startDate').value;
+            const endDate = document.getElementById('endDate').value;
+            const reportType = document.querySelector('input[name="reportType"]:checked').value;
+            const exportFormat = document.querySelector('input[name="exportFormat"]:checked').value;
+            const remarks = document.getElementById('remarks').value;
+
+            if (!startDate || !endDate) {
+                alert('请选择时间范围');
+                return;
+            }
+
+            if (new Date(startDate) > new Date(endDate)) {
+                alert('开始日期不能大于结束日期');
+                return;
+            }
+
+            // TODO: 实现导出逻辑
+            alert('报表导出成功');
+        }
+    </script>
+</body>
+</html>

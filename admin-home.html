@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>管理员首页 - 外部司机配送管理系统</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f5f5f5;
+            width: 375px;
+            min-height: 100vh;
+        }
+        .status-bar {
+            height: 44px;
+            background-color: #000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            color: white;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .status-bar-time {
+            font-weight: bold;
+        }
+        .status-bar-icons {
+            display: flex;
+            gap: 5px;
+        }
+        .nav-bar {
+            height: 60px;
+            background-color: white;
+            margin-top: 40px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            border-top: 1px solid #e0e0e0;
+        }
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #666;
+            font-size: 10px;
+            text-decoration: none;
+        }
+        .nav-item.active {
+            color: #1976D2;
+        }
+        .nav-icon {
+            font-size: 22px;
+            margin-bottom: 4px;
+        }
+        .header {
+            background-color: #1976D2;
+            color: white;
+            padding: 16px;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            padding: 16px;
+        }
+        .stat-card {
+            background-color: white;
+            border-radius: 12px;
+            padding: 16px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+        .stat-title {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        .stat-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+        }
+        .stat-trend {
+            display: flex;
+            align-items: center;
+            font-size: 12px;
+            margin-top: 8px;
+        }
+        .trend-up {
+            color: #4CAF50;
+        }
+        .trend-down {
+            color: #F44336;
+        }
+        .chart-container {
+            background-color: white;
+            border-radius: 12px;
+            margin: 16px;
+            padding: 16px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+        .chart-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 16px;
+        }
+        .chart-placeholder {
+            height: 200px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: #666;
+        }
+        .chart-icon {
+            font-size: 32px;
+            margin-bottom: 8px;
+            color: #1976D2;
+        }
+    </style>
+</head>
+<body>
+    <!-- iOS 状态栏 -->
+    <div class="status-bar">
+        <div class="status-bar-time" id="status-time">9:41</div>
+        <div class="status-bar-icons">
+            <i class="fas fa-signal"></i>
+            <i class="fas fa-wifi"></i>
+            <i class="fas fa-battery-full"></i>
+        </div>
+    </div>
+
+    <!-- 头部区域 -->
+    <div class="header">
+        <h1 class="text-xl font-bold">管理员首页</h1>
+    </div>
+
+    <!-- 统计数据 -->
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-title">今日配送总量</div>
+            <div class="stat-value">128</div>
+            <div class="stat-trend trend-up">
+                <i class="fas fa-arrow-up mr-1"></i>
+                <span>15% 较昨日</span>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-title">在线司机</div>
+            <div class="stat-value">45</div>
+            <div class="stat-trend trend-up">
+                <i class="fas fa-arrow-up mr-1"></i>
+                <span>5人 较昨日</span>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-title">本月配送总量</div>
+            <div class="stat-value">3,256</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-title">异常订单</div>
+            <div class="stat-value">12</div>
+            <div class="stat-trend trend-down">
+                <i class="fas fa-arrow-down mr-1"></i>
+                <span>3% 较昨日</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 图表区域 -->
+    <div class="chart-container">
+        <h3 class="chart-title">月度配送趋势</h3>
+        <div class="chart-placeholder">
+            <i class="fas fa-chart-line chart-icon"></i>
+            <span>配送量趋势图</span>
+        </div>
+    </div>
+
+    <div class="chart-container">
+        <h3 class="chart-title">司机配送排行</h3>
+        <div class="chart-placeholder">
+            <i class="fas fa-chart-bar chart-icon"></i>
+            <span>司机配送量排行图</span>
+        </div>
+    </div>
+
+    <!-- 底部导航栏 -->
+    <div class="nav-bar">
+        <a href="admin-home.html" class="nav-item active">
+            <i class="fas fa-home nav-icon"></i>
+            <span>首页</span>
+        </a>
+        <a href="admin-orders.html" class="nav-item">
+            <i class="fas fa-list-alt nav-icon"></i>
+            <span>订单</span>
+        </a>
+        <a href="admin-stats.html" class="nav-item">
+            <i class="fas fa-chart-bar nav-icon"></i>
+            <span>统计</span>
+        </a>
+        <a href="admin-profile.html" class="nav-item">
+            <i class="fas fa-user nav-icon"></i>
+            <span>我的</span>
+        </a>
+    </div>
+
+    <script>
+        // 更新状态栏时间
+        function updateStatusBarTime() {
+            const now = new Date();
+            let hours = now.getHours();
+            let minutes = now.getMinutes();
+            minutes = minutes < 10 ? '0' + minutes : minutes;
+            document.getElementById('status-time').textContent = `${hours}:${minutes}`;
+        }
+        
+        updateStatusBarTime();
+        setInterval(updateStatusBarTime, 60000);
+    </script>
+</body>
+</html>
